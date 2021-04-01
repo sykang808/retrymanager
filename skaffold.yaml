@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+metadata:
+  name: creditmanager
+build:
+  artifacts:
+    - image: 566034038752.dkr.ecr.us-west-2.amazonaws.com/sykang/creditmanager
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    sha256: {}
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes-manifests/deployment.yaml
