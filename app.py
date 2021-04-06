@@ -6,10 +6,10 @@ import requests
 import threading
 import json
 import random
-BOOTSTRAP_SERVERS = ['sykang-kafka.default.svc.cluster.local:9092']
+BOOTSTRAP_SERVERS = ['b-2.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094','b-1.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094']
 
 class RecoveryManager():
-    producer = KafkaProducer(acks=0, compression_type='gzip', bootstrap_servers='sykang-kafka-0.sykang-kafka-headless.default.svc.cluster.local:9092', value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8'))  
+    producer = KafkaProducer(acks=0, compression_type='gzip',security_protocol="SSL" ,bootstrap_servers=BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8')) 
     ret_fin = 0
     ret_message = ''
 
@@ -53,7 +53,7 @@ class RecoveryManager():
         status = json_data['status']
         print(json_data)
         if status == "fail-reduce-kafka-user" or status == "fail-lack-kafka-user" or status == "fail-kafka-user" or status == "fail-kafka-delivery" or status == "fail-kafka-credit":
-            url= 'http://flask-product-restapi:5050/product/' + str( json_data['product_id'])
+            url= 'http://flask-product-restapi.flask-product-restapi/product/' + str( json_data['product_id'])
             r = requests.get( url )
             ret_json = json.loads(r.content)
             if r.status_code != 200:

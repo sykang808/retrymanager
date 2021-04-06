@@ -6,7 +6,6 @@ metadata:
     app: recoverymanager
   namespace: default
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: recoverymanager
