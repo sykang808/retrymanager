@@ -53,7 +53,7 @@ class RecoveryManager():
         status = json_data['status']
         print(json_data)
         if status == "fail-reduce-kafka-user" or status == "fail-lack-kafka-user" or status == "fail-kafka-user" or status == "fail-kafka-delivery" or status == "fail-kafka-credit":
-            url= 'http://product.flask-restapi/product/' + str( json_data['product_id'])
+            url= 'http://flask-restapi.product/product/' + str( json_data['product_id'])
             r = requests.get( url )
             if r.status_code != 200:
                 self.sendkafka("retrykafka", json_data, status)   
@@ -67,7 +67,7 @@ class RecoveryManager():
                 return;      
 
         if status == "fail-kafka-delivery" or status == "fail-kafka-credit":
-            url= 'http://user.flask-restapi/user/' + str(json_data['customer_id'])       
+            url= 'http://flask-restapi.user/user/' + str(json_data['customer_id'])       
             r = requests.get( url )
             if r.status_code != 200:
                 self.sendkafka("retrykafka", json_data, status)   
