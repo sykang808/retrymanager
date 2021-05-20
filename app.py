@@ -6,7 +6,31 @@ import requests
 import threading
 import json
 import random
-BOOTSTRAP_SERVERS = ['b-2.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094','b-1.microservice-kafka-2.6lxf1h.c6.kafka.us-west-2.amazonaws.com:9094']
+import boto3
+
+
+ 
+#t = get_secret()
+#print(DATABASE_CONFIG)
+cloudformation_client = boto3.client('cloudformation')
+response = cloudformation_client.describe_stacks(
+    StackName='MicroserviceCDKVPC'
+)
+ParameterKey=''
+outputs = response["Stacks"][0]["Outputs"]
+for output in outputs:
+    keyName = output["OutputKey"]
+    if keyName == "mskbootstriapbrokers":
+        ParameterKey = output["OutputValue"]
+
+print( ParameterKey )
+ssm_client = boto3.client('ssm')
+response = ssm_client.get_parameter(
+    Name=ParameterKey
+)
+
+BOOTSTRAP_SERVERS = response['Parameter']['Value'].split(',')
+print(BOOTSTRAP_SERVERS)
 
 class RecoveryManager():
     producer = KafkaProducer(acks=0, compression_type='gzip',security_protocol="SSL" ,bootstrap_servers=BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8')) 
