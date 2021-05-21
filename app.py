@@ -1,18 +1,17 @@
 from kafka import KafkaConsumer 
 from kafka import KafkaProducer 
-from json import loads 
-from json import dumps 
 import requests
 import threading
 import json
-import random
 import boto3
+from botocore.config import Config
 
-
- 
+my_config = Config(
+    region_name='us-west-2',
+)
 #t = get_secret()
 #print(DATABASE_CONFIG)
-cloudformation_client = boto3.client('cloudformation')
+cloudformation_client = boto3.client('cloudformation', config=my_config)
 response = cloudformation_client.describe_stacks(
     StackName='MicroserviceCDKVPC'
 )
@@ -24,16 +23,14 @@ for output in outputs:
         ParameterKey = output["OutputValue"]
 
 print( ParameterKey )
-ssm_client = boto3.client('ssm')
+ssm_client = boto3.client('ssm', config=my_config)
 response = ssm_client.get_parameter(
     Name=ParameterKey
 )
-
 BOOTSTRAP_SERVERS = response['Parameter']['Value'].split(',')
-print(BOOTSTRAP_SERVERS)
 
 class RecoveryManager():
-    producer = KafkaProducer(acks=0, compression_type='gzip',security_protocol="SSL" ,bootstrap_servers=BOOTSTRAP_SERVERS, value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8')) 
+    producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS, security_protocol="SSL")    
     ret_fin = 0
     ret_message = ''
 
@@ -116,5 +113,11 @@ class RecoveryManager():
 if __name__ == '__main__':
 #    OrderManager.register_kafka_listener('orderkafka')
 #   app.run(host="0.0.0.0", port=5052,debug=True)
-    productmanager = RecoveryManager()
-    productmanager.register_kafka_listener('recoverykafka')
+    productmanager1 = RecoveryManager()
+    productmanager1.register_kafka_listener('recoverykafka')
+    productmanager2 = RecoveryManager()
+    productmanager2.register_kafka_listener('recoverykafka')
+    productmanager3 = RecoveryManager()
+    productmanager3.register_kafka_listener('recoverykafka')
+    productmanager4 = RecoveryManager()
+    productmanager4.register_kafka_listener('recoverykafka')            
