@@ -122,6 +122,14 @@ if __name__ == '__main__':
     recoverymanager3.register_kafka_listener('recoverykafka')
     recoverymanager4 = RecoveryManager()
     recoverymanager4.register_kafka_listener('recoverykafka')            
+    recoverymanager5 = RecoveryManager()
+    recoverymanager5.register_kafka_listener('recoverykafka')
+    recoverymanager6 = RecoveryManager()
+    recoverymanager6.register_kafka_listener('recoverykafka')
+    recoverymanager7 = RecoveryManager()
+    recoverymanager7.register_kafka_listener('recoverykafka')
+    recoverymanager8 = RecoveryManager()
+    recoverymanager8.register_kafka_listener('recoverykafka')            
 
 
 
