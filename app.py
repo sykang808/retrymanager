@@ -29,7 +29,7 @@ response = ssm_client.get_parameter(
 )
 BOOTSTRAP_SERVERS = response['Parameter']['Value'].split(',')
 
-class RecoveryManager():
+class Retrymanager():
     
     producer = KafkaProducer(acks=0, compression_type='gzip',bootstrap_servers=BOOTSTRAP_SERVERS, security_protocol="SSL", value_serializer=lambda v: json.dumps(v, sort_keys=True).encode('utf-8'))    
     ret_fin = 0
@@ -114,21 +114,21 @@ class RecoveryManager():
 if __name__ == '__main__':
 #    OrderManager.register_kafka_listener('orderkafka')
 #   app.run(host="0.0.0.0", port=5052,debug=True)
-    recoverymanager1 = RecoveryManager()
+    recoverymanager1 = Retrymanager()
     recoverymanager1.register_kafka_listener('recoverykafka')
-    recoverymanager2 = RecoveryManager()
+    recoverymanager2 = Retrymanager()
     recoverymanager2.register_kafka_listener('recoverykafka')
-    recoverymanager3 = RecoveryManager()
+    recoverymanager3 = Retrymanager()
     recoverymanager3.register_kafka_listener('recoverykafka')
-    recoverymanager4 = RecoveryManager()
+    recoverymanager4 = Retrymanager()
     recoverymanager4.register_kafka_listener('recoverykafka')            
-    recoverymanager5 = RecoveryManager()
+    recoverymanager5 = Retrymanager()
     recoverymanager5.register_kafka_listener('recoverykafka')
-    recoverymanager6 = RecoveryManager()
+    recoverymanager6 = Retrymanager()
     recoverymanager6.register_kafka_listener('recoverykafka')
-    recoverymanager7 = RecoveryManager()
+    recoverymanager7 = Retrymanager()
     recoverymanager7.register_kafka_listener('recoverykafka')
-    recoverymanager8 = RecoveryManager()
+    recoverymanager8 = Retrymanager()
     recoverymanager8.register_kafka_listener('recoverykafka')            
 
 

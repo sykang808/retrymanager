@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: recoverymanager
+  name: retraymanager
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recoverymanager
-  namespace: recoverymanager
+  name: retraymanager
+  namespace: retraymanager
   labels:
-    app: recoverymanager
+    app: retraymanager
 spec:
   selector:
     matchLabels:
-      app: recoverymanager
+      app: retraymanager
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -22,12 +22,12 @@ spec:
   template:
     metadata:
       labels:
-        app: recoverymanager
+        app: retraymanager
     spec:
       containers:
-      - image: 566034038752.dkr.ecr.us-west-2.amazonaws.com/sykang/recoverymanager:latest
+      - image: 566034038752.dkr.ecr.us-west-2.amazonaws.com/sykang/retraymanager:latest
         imagePullPolicy: Always
-        name: recoverymanager
+        name: retraymanager
         ports:
         - containerPort: 80
           protocol: TCP
@@ -35,12 +35,12 @@ spec:
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: recoverymanager
+  name: retraymanager
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: recoverymanager
+    name: retraymanager
   minReplicas: 1
   maxReplicas: 4
   metrics:
