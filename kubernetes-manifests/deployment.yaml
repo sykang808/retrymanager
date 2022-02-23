@@ -1,48 +1,48 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: retraymanager
+  name: retrymanager
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: retraymanager
-  namespace: retraymanager
+  name: retrymanager
+  namespace: retrymanager
   labels:
-    app: retraymanager
+    app: retrymanager
 spec:
   selector:
     matchLabels:
-      app: retraymanager
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: retrymanager
   template:
     metadata:
       labels:
-        app: retraymanager
+        app: retrymanager
     spec:
       containers:
-      - image: 566034038752.dkr.ecr.us-west-2.amazonaws.com/sykang/retraymanager:latest
+      - image: 566034038752.dkr.ecr.us-west-2.amazonaws.com/sykang/retrymanager:latest
         imagePullPolicy: Always
-        name: retraymanager
+        name: retrymanager
         ports:
         - containerPort: 80
-          protocol: TCP
+        resources:
+          limits:
+            cpu: 250m
+          requests:
+            cpu: 100m
 ---          
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: retraymanager
+  name: retrymanager
+  namespace: retrymanager
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: retraymanager
+    name: retrymanager
   minReplicas: 1
-  maxReplicas: 4
+  maxReplicas: 12
   metrics:
     - type: Resource
       resource:

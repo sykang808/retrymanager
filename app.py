@@ -116,21 +116,3 @@ if __name__ == '__main__':
 #   app.run(host="0.0.0.0", port=5052,debug=True)
     recoverymanager1 = Retrymanager()
     recoverymanager1.register_kafka_listener('retrykafka')
-    recoverymanager2 = Retrymanager()
-    recoverymanager2.register_kafka_listener('retrykafka')
-    recoverymanager3 = Retrymanager()
-    recoverymanager3.register_kafka_listener('retrykafka')
-    recoverymanager4 = Retrymanager()
-    recoverymanager4.register_kafka_listener('retrykafka')            
-    recoverymanager5 = Retrymanager()
-    recoverymanager5.register_kafka_listener('retrykafka')
-    recoverymanager6 = Retrymanager()
-    recoverymanager6.register_kafka_listener('retrykafka')
-    recoverymanager7 = Retrymanager()
-    recoverymanager7.register_kafka_listener('retrykafka')
-    recoverymanager8 = Retrymanager()
-    recoverymanager8.register_kafka_listener('retrykafka')            
-
-
-
- 
